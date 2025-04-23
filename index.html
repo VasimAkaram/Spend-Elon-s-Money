@@ -4,125 +4,177 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Spend Elon's Money | What Would You Buy If You Were a Billionaire?</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --primary: #6366f1;
+      --primary-dark: #4f46e5;
       --secondary: #7c3aed;
       --accent: #f43f5e;
+      --accent-dark: #e11d48;
       --dark: #111827;
+      --darker: #0a0f1f;
       --light: #f9fafb;
+      --lighter: #ffffff;
       --money: #f59e0b;
+      --money-dark: #d97706;
+      --success: #10b981;
       --error: #ef4444;
+      --gray: #9ca3af;
+      --gray-light: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
       font-family: 'Poppins', sans-serif;
       background: var(--light);
-      margin: 0;
-      padding: 0;
+      color: var(--dark);
+      line-height: 1.6;
     }
 
     .container {
       max-width: 1400px;
-      margin: auto;
-      padding: 2rem;
+      margin: 0 auto;
+      padding: 1.5rem;
     }
 
     header {
       text-align: center;
+      margin-bottom: 1.5rem;
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 3rem;
+      font-size: clamp(2rem, 5vw, 3rem);
       color: var(--primary);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    header p {
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      color: var(--dark);
+      opacity: 0.8;
+    }
+
+    .dashboard {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--lighter);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
     }
 
     .money-display {
-      position: sticky;
-      top: 0;
-      background: linear-gradient(135deg, var(--money), #fbbf24);
-      border-radius: 1rem;
-      padding: 1.2rem 2rem;
+      flex: 1;
+      min-width: 200px;
+      background: linear-gradient(135deg, var(--money), var(--money-dark));
+      border-radius: 0.8rem;
+      padding: 1rem;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-      margin: 2rem 0;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .money-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--darker);
+      opacity: 0.9;
     }
 
     .money-amount {
-      font-size: 2rem;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
       font-weight: 700;
-      color: var(--dark);
+      color: var(--darker);
+      letter-spacing: 0.5px;
     }
 
-    .reset-btn {
-      background: var(--accent);
-      color: #fff;
+    .net-worth {
+      flex: 1;
+      min-width: 200px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 0.8rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .controls {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .btn {
       padding: 0.6rem 1.2rem;
       border: none;
       border-radius: 999px;
       cursor: pointer;
-    }
-
-    .items-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .item-card {
-      background: white;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      overflow: hidden;
-      transition: 0.3s ease;
-    }
-
-    .item-card:hover {
-      transform: scale(1.01);
-    }
-
-    .item-image {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .item-details {
-      padding: 1rem;
-    }
-
-    .buy-controls {
-      display: flex;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
       gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .reset-btn {
+      background: var(--accent);
+      color: var(--lighter);
+    }
+
+    .reset-btn:hover {
+      background: var(--accent-dark);
+    }
+
+    .history-btn {
+      background: var(--secondary);
+      color: var(--lighter);
+    }
+
+    .progress-container {
+      width: 100%;
       margin-top: 1rem;
     }
 
-    .quantity-input {
-      width: 60px;
-      padding: 0.5rem;
-      text-align: center;
-      border-radius: 8px;
-    }
-
-    .buy-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      flex: 1;
-      cursor: pointer;
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--dark);
+      opacity: 0.8;
     }
 
     .progress-bar {
-      background: #e5e7eb;
+      background: var(--gray-light);
       height: 10px;
       border-radius: 5px;
-      margin-top: 1rem;
+      overflow: hidden;
     }
 
     .progress {
@@ -131,6 +183,141 @@
       width: 0%;
       border-radius: 5px;
       transition: width 0.4s ease;
+    }
+
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .item-card {
+      background: var(--lighter);
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    .item-image-container {
+      width: 100%;
+      height: 180px;
+      background: var(--gray-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .item-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .item-card:hover .item-image {
+      transform: scale(1.05);
+    }
+
+    .no-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--gray-light), #d1d5db);
+      color: var(--gray);
+      font-size: 1.5rem;
+    }
+
+    .item-details {
+      padding: 1.2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+
+    .item-price {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .item-description {
+      font-size: 0.9rem;
+      color: var(--dark);
+      opacity: 0.8;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .buy-controls {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--gray-light);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .quantity-btn {
+      background: var(--gray-light);
+      color: var(--dark);
+      border: none;
+      width: 30px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .quantity-input {
+      width: 40px;
+      padding: 0.5rem;
+      text-align: center;
+      border: none;
+      background: var(--lighter);
+      font-weight: 600;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .buy-btn {
+      background: var(--primary);
+      color: var(--lighter);
+      border: none;
+      padding: 0 1rem;
+      border-radius: 8px;
+      flex: 1;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s ease;
+    }
+
+    .buy-btn:hover {
+      background: var(--primary-dark);
     }
 
     .toast {
@@ -145,86 +332,399 @@
       box-shadow: 0 8px 16px rgba(0,0,0,0.2);
       display: none;
       z-index: 9999;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .purchase-history {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .history-container {
+      background: var(--lighter);
+      border-radius: 1rem;
+      max-width: 600px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .history-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .close-history {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--gray);
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .history-item:last-child {
+      border-bottom: none;
+    }
+
+    .history-item-name {
+      font-weight: 600;
+    }
+
+    .history-item-details {
+      text-align: right;
+    }
+
+    .empty-history {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      .dashboard {
+        flex-direction: column;
+        padding: 1rem;
+      }
+      
+      .money-display, .net-worth {
+        width: 100%;
+      }
+      
+      .controls {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .items-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1rem;
+      }
+      
+      .item-image-container {
+        height: 150px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .items-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .buy-controls {
+        flex-direction: column;
+      }
+      
+      .quantity-control {
+        width: 100%;
+      }
+      
+      .quantity-input {
+        flex: 1;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>Spend Elon's Money</h1>
+      <h1>ASpend Elon's Money </h1>
       <p>What Would You Buy If You Were a Billionaire?</p>
     </header>
 
-    <div class="money-display">
-      <div class="money-amount" id="money">₹30,00,00,00,00,000</div>
-      <button class="reset-btn" id="reset">🔁 Reset</button>
+    <div class="dashboard">
+      <div class="money-display">
+        <span class="money-label">Available Balance</span>
+        <span class="money-amount" id="money">₹30,00,00,00,00,000</span>
+      </div>
+      
+      
+      <div class="progress-container">
+        <div class="progress-label">
+          <span>Spending Progress</span>
+          <span id="progress-percent">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress" id="progress"></div>
+        </div>
+      </div>
+      
+      <div class="controls">
+        <button class="btn history-btn" id="show-history">
+          <i class="fas fa-history"></i> History
+        </button>
+        <button class="btn reset-btn" id="reset">
+          <i class="fas fa-sync-alt"></i> Reset
+        </button>
+      </div>
     </div>
 
-    <div class="progress-bar"><div class="progress" id="progress"></div></div>
     <div class="items-grid" id="items-grid"></div>
   </div>
 
   <div id="toast" class="toast">Not enough funds!</div>
+  
+  <div class="purchase-history" id="purchase-history">
+    <div class="history-container">
+      <div class="history-header">
+        <h2 class="history-title">Purchase History</h2>
+        <button class="close-history" id="close-history">&times;</button>
+      </div>
+      <div id="history-list"></div>
+    </div>
+  </div>
 
   <script>
     const items = [
-      { name: 'iPhone 15 Pro Max', price: 159900, description: '1TB, Titanium Finish', image: 'https://images.unsplash.com/photo-1695639509828-d4260075e370?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGlwaG9uZSUyMDE1JTIwcHJvJTIwbWF4fGVufDB8fDB8fHww' },
-      { name: 'Samsung Galaxy Z Fold5', price: 154999, description: '12GB RAM, 512GB', image: 'https://images.samsung.com/is/image/samsung/assets/in/smartphones/galaxy-z-fold5/images/galaxy-z-fold5-highlights-sustainability-mo.jpg?imbypass=true' },
-      { name: 'MacBook Pro M3 Max', price: 289900, description: '16-inch, 48GB RAM', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwL15AAywny4K1XqBzOM2pVbhJnWOrHCpOew&s' },
-      { name: 'PlayStation 5', price: 59990, description: 'Sony PS5 Console (Disc Edition)', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCJsvFovfru48fXOo2CD0KOmKNrWvJW0FlPw&s' },
-      { name: 'Apple Watch Ultra 2', price: 89900, description: '49mm Titanium Case', image: ''},
-      { name: 'Canon EOS R5', price: 319999, description: '45MP Mirrorless Camera', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjGpdOM-lh8LSU_1e-V24Z4DgxQCeSsInp3w&s'},
-      { name: 'Mercedes Maybach S650', price: 35000000, description: 'Bulletproof Luxury Sedan', image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Lamborghini Aventador', price: 60000000, description: 'V12 Supercar', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1WlXeVQxBPCt-lKZ-5nCfJW2XB2NAUfD3hw&s'},
-      { name: 'Private Jet', price: 5000000000, description: 'Bombardier Global 7500', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8qVb6oXfJ2OTXkss05K8wyO6iG3BYHQ-n4w&s' },
-      { name: 'Taj Mahal', price: 1000000000000, description: 'Iconic Mughal Monument', image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Qutub Minar', price: 50000000000, description: 'Historic Delhi Landmark', image: 'https://images.unsplash.com/photo-1632426237957-5ea14aae7100?q=80&w=1935&auto=format&fit=crop' },
-      { name: 'Golden Temple', price: 75000000000, description: 'Sikh holy site in Amritsar', image: 'https://media.istockphoto.com/id/504746394/photo/awsome-sikh-golden-temple-at-night-amritsar-india.webp?a=1&b=1&s=612x612&w=0&k=20&c=SYWu36GX3_HgL2t17HxlI1qV-zb5xzArsxVVfYkxYL8=' },
-      { name: 'Red Fort', price: 60000000000, description: 'Lal Qila in Delhi', image: ''},
-          
-      { name: 'Statue of Unity', price: 80000000000, description: 'Tallest statue in the world', image: 'https://images.unsplash.com/photo-1642841819300-20ed449c02a1?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-      { name: 'Jacob & Co Billionaire Watch', price: 1800000000, description: 'Diamond-encrusted timepiece', image: ''},
-      { name: 'Kohinoor Diamond', price: 10000000000000, description: 'Famous 105-carat gem', image: 'https://plus.unsplash.com/premium_photo-1678727212341-eb0a264a6800?q=80&w=2036&auto=format&fit=crop' },
-      { name: 'Bollywood Studio', price: 200000000000, description: 'Own your own production house', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKQjDE_tA_hQZJazRpT3RSqnAYbSuoDCam0Q&s' },
-      { name: 'IPL Cricket Team', price: 100000000000, description: 'Buy a franchise team', image: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Elephant with Gold Howdah', price: 250000000, description: 'Royal decor and ride', image: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=600&q=80' },
+      { 
+        name: 'iPhone 15 Pro Max', 
+        price: 159900, 
+        description: '1TB, Titanium Finish', 
+        image: 'https://images.unsplash.com/photo-1695639509828-d4260075e370?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGlwaG9uZSUyMDE1JTIwcHJvJTIwbWF4fGVufDB8fDB8fHww' 
+      },
+      { 
+        name: 'Samsung Galaxy Z Fold5', 
+        price: 154999, 
+        description: '12GB RAM, 512GB', 
+        image: 'https://images.samsung.com/is/image/samsung/assets/in/smartphones/galaxy-z-fold5/images/galaxy-z-fold5-highlights-sustainability-mo.jpg?imbypass=true' 
+      },
+      { 
+        name: 'MacBook Pro M3 Max', 
+        price: 289900, 
+        description: '16-inch, 48GB RAM', 
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwL15AAywny4K1XqBzOM2pVbhJnWOrHCpOew&s' 
+      },
+      { 
+        name: 'PlayStation 5', 
+        price: 59990, 
+        description: 'Sony PS5 Console (Disc Edition)', 
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCJsvFovfru48fXOo2CD0KOmKNrWvJW0FlPw&s' 
+      },
+      { 
+        name: 'Apple Watch Ultra 2', 
+        price: 89900, 
+        description: '49mm Titanium Case', 
+        image: 'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MT3V3ref_VW_34FR+watch-49-titanium-ultra2_VW_34FR_WF_CO?wid=750&hei=712&trim=1,0&fmt=p-jpg&qlt=95&.v=1694876276034,1694700030629'
+      },
+      { 
+        name: 'Mercedes Maybach S650', 
+        price: 35000000, 
+        description: 'Bulletproof Luxury Sedan', 
+        image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=600&q=80' 
+      },
+      { 
+        name: 'Lamborghini Aventador', 
+        price: 60000000, 
+        description: 'V12 Supercar', 
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1WlXeVQxBPCt-lKZ-5nCfJW2XB2NAUfD3hw&s'
+      },
+      { 
+        name: 'Private Jet', 
+        price: 5000000000, 
+        description: 'Bombardier Global 7500', 
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8qVb6oXfJ2OTXkss05K8wyO6iG3BYHQ-n4w&s' 
+      },
+      { 
+        name: 'Taj Mahal', 
+        price: 1000000000000, 
+        description: 'Iconic Mughal Monument', 
+        image: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=600&q=80' 
+      },
+      { 
+        name: 'Qutub Minar', 
+        price: 50000000000, 
+        description: 'Historic Delhi Landmark', 
+        image: 'https://images.unsplash.com/photo-1632426237957-5ea14aae7100?q=80&w=1935&auto=format&fit=crop' 
+      },
+      { 
+        name: 'Golden Temple', 
+        price: 75000000000, 
+        description: 'Sikh holy site in Amritsar', 
+        image: 'https://media.istockphoto.com/id/504746394/photo/awsome-sikh-golden-temple-at-night-amritsar-india.webp?a=1&b=1&s=612x612&w=0&k=20&c=SYWu36GX3_HgL2t17HxlI1qV-zb5xzArsxVVfYkxYL8=' 
+      },
+      { 
+        name: 'Red Fort', 
+        price: 60000000000, 
+        description: 'Lal Qila in Delhi', 
+        image: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
+      },
+      { 
+        name: 'Statue of Unity', 
+        price: 80000000000, 
+        description: 'Tallest statue in the world', 
+        image: 'https://images.unsplash.com/photo-1642841819300-20ed449c02a1?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
+      },
+      { 
+        name: 'Jacob & Co Billionaire Watch', 
+        price: 1800000000, 
+        description: 'Diamond-encrusted timepiece', 
+        image: 'https://www.jacobandco.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/b/i/billionaire-watch-astronomia-1.jpg' 
+      },
+      { 
+        name: 'Kohinoor Diamond', 
+        price: 10000000000000, 
+        description: 'Famous 105-carat gem', 
+        image: 'https://plus.unsplash.com/premium_photo-1678727212341-eb0a264a6800?q=80&w=2036&auto=format&fit=crop' 
+      },
+      { 
+        name: 'Bollywood Studio', 
+        price: 200000000000, 
+        description: 'Own your own production house', 
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKQjDE_tA_hQZJazRpT3RSqnAYbSuoDCam0Q&s' 
+      },
+      { 
+        name: 'IPL Cricket Team', 
+        price: 100000000000, 
+        description: 'Buy a franchise team', 
+        image: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=600&q=80' 
+      },
+      { 
+        name: 'Elephant with Gold Howdah', 
+        price: 250000000, 
+        description: 'Royal decor and ride', 
+        image: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=600&q=80' 
+      },
+      { 
+        name: 'Antilia Residence', 
+        price: 150000000000, 
+        description: 'Mukesh Ambani\'s Mumbai home', 
+        image: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
+      },
+      { 
+        name: 'Yacht', 
+        price: 8000000000, 
+        description: '200ft luxury superyacht', 
+        image: 'https://images.unsplash.com/photo-1518544866330-95a270123ec3?q=80&w=2040&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
+      },
+      { 
+        name: 'Private Island', 
+        price: 30000000000, 
+        description: '100-acre island in the Maldives', 
+        image: 'https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?q=80&w=1933&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
+      }
     ];
 
     let totalMoney = 30000000000000;
     let money = totalMoney;
+    let purchaseHistory = [];
 
     const formatINR = amt => '₹' + amt.toLocaleString('en-IN');
-    const showToast = (msg) => {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.style.display = 'block';
-      setTimeout(() => toast.style.display = 'none', 2000);
-    };
+    
+    const showToast = (msg, type = 'error') => {
+  const toast = document.getElementById('toast');
+  const styles = getComputedStyle(document.documentElement);
+  const errorColor = styles.getPropertyValue('--error').trim();
+  const successColor = styles.getPropertyValue('--success').trim();
+
+  toast.textContent = msg;
+  toast.style.display = 'block';
+  toast.style.background = type === 'error' ? errorColor : successColor;
+
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, 2000);
+};
 
     function updateUI() {
       document.getElementById('money').textContent = formatINR(money);
       const progress = ((totalMoney - money) / totalMoney) * 100;
       document.getElementById('progress').style.width = `${progress}%`;
+      document.getElementById('progress-percent').textContent = `${progress.toFixed(1)}%`;
     }
 
     function renderItems() {
       const grid = document.getElementById('items-grid');
       grid.innerHTML = '';
+      
       items.forEach(item => {
         const card = document.createElement('div');
         card.className = 'item-card';
+        
+        const imageHTML = item.image 
+          ? `<img src="${item.image}" class="item-image" alt="${item.name}">`
+          : `<div class="item-image-container no-image"><i class="fas fa-image"></i></div>`;
+        
         card.innerHTML = `
-          <img src="${item.image}" class="item-image" />
+          <div class="item-image-container">
+            ${imageHTML}
+          </div>
           <div class="item-details">
-            <h3>${item.name}</h3>
-            <p><strong>${formatINR(item.price)}</strong> — ${item.description}</p>
+            <h3 class="item-name">${item.name}</h3>
+            <p class="item-price">${formatINR(item.price)}</p>
+            <p class="item-description">${item.description}</p>
             <div class="buy-controls">
-              <input type="number" min="1" value="1" class="quantity-input" id="qty-${item.name}">
-              <button class="buy-btn" onclick="buy('${item.name}')">Buy</button>
+              <div class="quantity-control">
+                <button class="quantity-btn minus" onclick="adjustQuantity('${item.name}', -1)">-</button>
+                <input type="number" min="1" value="1" class="quantity-input" id="qty-${item.name}">
+                <button class="quantity-btn plus" onclick="adjustQuantity('${item.name}', 1)">+</button>
+              </div>
+              <button class="buy-btn" onclick="buy('${item.name}')">
+                <i class="fas fa-shopping-cart"></i> Buy
+              </button>
             </div>
           </div>`;
+          
         grid.appendChild(card);
       });
+    }
+    
+    function adjustQuantity(itemName, change) {
+      const qtyInput = document.getElementById(`qty-${itemName}`);
+      let newValue = parseInt(qtyInput.value) + change;
+      newValue = Math.max(1, newValue);
+      qtyInput.value = newValue;
     }
 
     function buy(itemName) {
@@ -235,17 +735,73 @@
 
       if (money >= totalCost) {
         money -= totalCost;
+        
+        // Add to purchase history
+        purchaseHistory.push({
+          name: item.name,
+          quantity: qty,
+          price: item.price,
+          total: totalCost,
+          timestamp: new Date()
+        });
+        
         updateUI();
+        showToast(`Purchased ${qty} ${item.name} for ${formatINR(totalCost)}`, 'success');
       } else {
         showToast('Not enough funds!');
       }
     }
+    
+    function showHistory() {
+      const historyList = document.getElementById('history-list');
+      const historyModal = document.getElementById('purchase-history');
+      
+      if (purchaseHistory.length === 0) {
+        historyList.innerHTML = '<div class="empty-history">No purchases yet!</div>';
+      } else {
+        historyList.innerHTML = '';
+        purchaseHistory.forEach(item => {
+          const historyItem = document.createElement('div');
+          historyItem.className = 'history-item';
+          historyItem.innerHTML = `
+            <div class="history-item-name">
+              ${item.name} × ${item.quantity}
+            </div>
+            <div class="history-item-details">
+              ${formatINR(item.total)}<br>
+              <small>${item.timestamp.toLocaleString()}</small>
+            </div>
+          `;
+          historyList.appendChild(historyItem);
+        });
+      }
+      
+      historyModal.style.display = 'flex';
+    }
+    
+    function closeHistory() {
+      document.getElementById('purchase-history').style.display = 'none';
+    }
 
-    document.getElementById('reset').onclick = () => {
+    // Event listeners
+    document.getElementById('reset').addEventListener('click', () => {
       money = totalMoney;
+      purchaseHistory = [];
       updateUI();
-    };
+      showToast('Balance reset to original amount!', 'success');
+    });
+    
+    document.getElementById('show-history').addEventListener('click', showHistory);
+    document.getElementById('close-history').addEventListener('click', closeHistory);
+    
+    // Close modal when clicking outside
+    document.getElementById('purchase-history').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('purchase-history')) {
+        closeHistory();
+      }
+    });
 
+    // Initialize
     renderItems();
     updateUI();
   </script>
